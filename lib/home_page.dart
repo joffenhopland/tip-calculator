@@ -12,10 +12,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late TextEditingController _billController;
   late TextEditingController _numPeopleController;
+
   double _totTip = 0.00;
   double _tot = 0.00;
   double _tipPerPerson = 0.00;
   double _totPerPerson = 0.00;
+
+  bool _selectedButton10 = false;
+  bool _selectedButton15 = false;
+  bool _selectedButton18 = false;
+  bool _selectedButton20 = false;
+  bool _selectedButton22 = false;
+  bool _selectedButton25 = false;
 
   void _calculate(tipPercentage) {
     setState(() {
@@ -24,9 +32,11 @@ class _MyHomePageState extends State<MyHomePage> {
       _tipPerPerson = double.parse(_numPeopleController.text) != 0
           ? _totTip / double.parse(_numPeopleController.text)
           : _totTip;
-      _totPerPerson = double.parse(_numPeopleController.text) != 0 ? double.parse(_billController.text) /
-              double.parse(_numPeopleController.text) +
-          _tipPerPerson : _tot;
+      _totPerPerson = double.parse(_numPeopleController.text) != 0
+          ? double.parse(_billController.text) /
+                  double.parse(_numPeopleController.text) +
+              _tipPerPerson
+          : _tot;
     });
   }
 
@@ -49,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Center(child: Text(widget.title)),
       ),
       body: Center(
         child: Card(
@@ -86,18 +96,54 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         ElevatedButton(
                             onPressed: () {
-                              _calculate(0.10);
+                              _selectedButton10 = !_selectedButton10;
+                              _selectedButton10
+                                  ? _calculate(0.10)
+                                  : _calculate(0);
+                              _selectedButton15 = false;
+                              _selectedButton18 = false;
+                              _selectedButton20 = false;
+                              _selectedButton22 = false;
+                              _selectedButton25 = false;
                             },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: _selectedButton10
+                                    ? Colors.blue.shade200
+                                    : Colors.blue),
                             child: const Text('10%')),
                         ElevatedButton(
                             onPressed: () {
-                              _calculate(0.15);
+                              _selectedButton15 = !_selectedButton15;
+                              _selectedButton15
+                                  ? _calculate(0.15)
+                                  : _calculate(0);
+                              _selectedButton10 = false;
+                              _selectedButton18 = false;
+                              _selectedButton20 = false;
+                              _selectedButton22 = false;
+                              _selectedButton25 = false;
                             },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: _selectedButton15
+                                    ? Colors.blue.shade200
+                                    : Colors.blue),
                             child: const Text('15%')),
                         ElevatedButton(
                             onPressed: () {
-                              _calculate(0.18);
+                              _selectedButton18 = !_selectedButton18;
+                              _selectedButton18
+                                  ? _calculate(0.18)
+                                  : _calculate(0);
+                              _selectedButton15 = false;
+                              _selectedButton10 = false;
+                              _selectedButton20 = false;
+                              _selectedButton22 = false;
+                              _selectedButton25 = false;
                             },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: _selectedButton18
+                                    ? Colors.blue.shade200
+                                    : Colors.blue),
                             child: const Text('18%')),
                       ],
                     ),
@@ -109,18 +155,54 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         ElevatedButton(
                             onPressed: () {
-                              _calculate(0.20);
+                              _selectedButton20 = !_selectedButton20;
+                              _selectedButton20
+                                  ? _calculate(0.20)
+                                  : _calculate(0);
+                              _selectedButton15 = false;
+                              _selectedButton18 = false;
+                              _selectedButton10 = false;
+                              _selectedButton22 = false;
+                              _selectedButton25 = false;
                             },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: _selectedButton20
+                                    ? Colors.blue.shade200
+                                    : Colors.blue),
                             child: const Text('20%')),
                         ElevatedButton(
                             onPressed: () {
-                              _calculate(0.22);
+                              _selectedButton22 = !_selectedButton22;
+                              _selectedButton22
+                                  ? _calculate(0.22)
+                                  : _calculate(0);
+                              _selectedButton15 = false;
+                              _selectedButton18 = false;
+                              _selectedButton20 = false;
+                              _selectedButton10 = false;
+                              _selectedButton25 = false;
                             },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: _selectedButton22
+                                    ? Colors.blue.shade200
+                                    : Colors.blue),
                             child: const Text('22%')),
                         ElevatedButton(
                             onPressed: () {
-                              _calculate(0.25);
+                              _selectedButton25 = !_selectedButton25;
+                              _selectedButton25
+                                  ? _calculate(0.25)
+                                  : _calculate(0);
+                              _selectedButton15 = false;
+                              _selectedButton18 = false;
+                              _selectedButton20 = false;
+                              _selectedButton22 = false;
+                              _selectedButton10 = false;
                             },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: _selectedButton25
+                                    ? Colors.blue.shade200
+                                    : Colors.blue),
                             child: const Text('25%'))
                       ],
                     ),
@@ -225,6 +307,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         _tot = 0.00;
                         _tipPerPerson = 0.00;
                         _totPerPerson = 0.00;
+                        _selectedButton10 = false;
+                        _selectedButton15 = false;
+                        _selectedButton18 = false;
+                        _selectedButton20 = false;
+                        _selectedButton22 = false;
+                        _selectedButton25 = false;
                       });
                     },
                     child: const Text('Reset')),
