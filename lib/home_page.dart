@@ -60,8 +60,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: themeColor3,
-        title: Center(child: Text(widget.title)),
+        backgroundColor: themeColor5,
+        title: Center(
+            child: Text(
+          widget.title,
+          style: TextStyle(color: themeTextColor),
+        )),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -69,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
             constraints: BoxConstraints(maxWidth: 500),
             child: Card(
               elevation: 5,
-              color: themeColor3,
+              color: themeColor5.withOpacity(0.8),
               child: Padding(
                 padding: const EdgeInsets.all(32.0),
                 child: Column(
@@ -78,43 +82,63 @@ class _MyHomePageState extends State<MyHomePage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
-                        style: TextStyle(color: themeColor5),
+                        style: TextStyle(color: themeTextColor),
+                        controller: _billController,
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: themeColor2,
+                          fillColor: themeColor5,
                           hintText: 'Enter bill amount',
                           hintStyle:
-                              TextStyle(color: themeColor5.withOpacity(0.7)),
+                              TextStyle(color: themeTextColor.withOpacity(0.7)),
                           prefixIcon: const Icon(
                             Icons.attach_money,
-                            color: themeColor5,
+                            color: themeTextColor,
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: themeColor3,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: themeColor5,
+                            ),
+                          ),
                         ),
-                        controller: _billController,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
-                        style: TextStyle(color: themeColor5),
+                        style: TextStyle(color: themeTextColor),
+                        controller: _numPeopleController,
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: themeColor2,
+                          fillColor: themeColor5,
                           hintText: 'Number of people to split the bill',
                           hintStyle:
-                              TextStyle(color: themeColor5.withOpacity(0.7)),
+                              TextStyle(color: themeTextColor.withOpacity(0.7)),
                           prefixIcon: Icon(
                             Icons.people,
-                            color: themeColor5,
+                            color: themeTextColor,
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: themeColor3,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: themeColor5,
+                            ),
+                          ),
                         ),
-                        controller: _numPeopleController,
                       ),
                     ),
                     Column(
@@ -138,11 +162,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: _selectedButton10
-                                          ? themeColor2
+                                          ? themeColor3
                                           : themeColor1),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: const Text('10%', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                                    child: const Text('10%',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: themeColor5)),
                                   )),
                               ElevatedButton(
                                   onPressed: () {
@@ -158,11 +186,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: _selectedButton15
-                                          ? themeColor2
+                                          ? themeColor3
                                           : themeColor1),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: const Text('15%', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                                    child: const Text('15%',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: themeColor5)),
                                   )),
                               ElevatedButton(
                                   onPressed: () {
@@ -178,11 +210,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: _selectedButton18
-                                          ? themeColor2
+                                          ? themeColor3
                                           : themeColor1),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: const Text('18%', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                                    child: const Text('18%',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: themeColor5)),
                                   )),
                             ],
                           ),
@@ -206,11 +242,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: _selectedButton20
-                                          ? themeColor2
+                                          ? themeColor3
                                           : themeColor1),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: const Text('20%', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                                    child: const Text('20%',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: themeColor5)),
                                   )),
                               ElevatedButton(
                                   onPressed: () {
@@ -230,7 +270,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                           : themeColor1),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: const Text('22%', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                                    child: const Text('22%',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: themeColor5)),
                                   )),
                               ElevatedButton(
                                   onPressed: () {
@@ -246,11 +290,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: _selectedButton25
-                                          ? themeColor2
+                                          ? themeColor3
                                           : themeColor1),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: const Text('25%', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                                    child: const Text(
+                                      '25%',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: themeColor5),
+                                    ),
                                   ))
                             ],
                           ),
@@ -260,11 +310,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Card(
-                        color: themeColor2,
+                        color: themeColor5,
+                        elevation: 5,
                         child: SizedBox(
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(16.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -281,7 +332,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       Text(
                                         _tipPerPerson.toStringAsFixed(2),
                                         style: TextStyle(
-                                            color: Colors.blue.shade50,
+                                            color: themeTextColor,
                                             fontSize: 22,
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -301,7 +352,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       Text(
                                         _totPerPerson.toStringAsFixed(2),
                                         style: TextStyle(
-                                            color: Colors.blue.shade50,
+                                            color: themeTextColor,
                                             fontSize: 22,
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -325,7 +376,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       Text(
                                         _totTip.toStringAsFixed(2),
                                         style: TextStyle(
-                                            color: Colors.blue.shade50,
+                                            color: themeTextColor,
                                             fontSize: 22,
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -345,7 +396,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       Text(
                                         _tot.toStringAsFixed(2),
                                         style: TextStyle(
-                                            color: Colors.blue.shade50,
+                                            color: themeTextColor,
                                             fontSize: 22,
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -383,7 +434,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 8.0, horizontal: 16),
-                            child: const Text('Reset', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                            child: const Text('Reset',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: themeColor5)),
                           )),
                     ),
                   ],

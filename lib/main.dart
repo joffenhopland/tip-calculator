@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
     var baseTheme = ThemeData(
       brightness: brightness,
       primarySwatch: Colors.blue,
-      scaffoldBackgroundColor: themeColor1,
+      scaffoldBackgroundColor: themeColor1.withOpacity(0.3),
     );
 
     return baseTheme.copyWith(
