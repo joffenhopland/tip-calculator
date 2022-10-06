@@ -148,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: NumberInputWithIncrementDecrement(
-                        onIncrement: (num) {
+                        onChanged: (value) {
                           setState(() {
                             if (_selectedButton10) _calculate(0.10);
                             if (_selectedButton15) _calculate(0.15);
@@ -163,7 +163,22 @@ class _MyHomePageState extends State<MyHomePage> {
                             }
                           });
                         },
-                        onDecrement: (num) {
+                        onIncrement: (value) {
+                          setState(() {
+                            if (_selectedButton10) _calculate(0.10);
+                            if (_selectedButton15) _calculate(0.15);
+                            if (_selectedButton18) _calculate(0.18);
+                            if (_selectedButton20) _calculate(0.20);
+                            if (_selectedButton22) _calculate(0.22);
+                            if (_selectedButton25) _calculate(0.25);
+                            if (_selectedCustomTip) {
+                              _calculate(
+                                  double.parse(_customTipController.text) /
+                                      100);
+                            }
+                          });
+                        },
+                        onDecrement: (value) {
                           setState(() {
                             if (_selectedButton10) _calculate(0.10);
                             if (_selectedButton15) _calculate(0.15);
