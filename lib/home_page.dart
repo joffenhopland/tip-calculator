@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tip_calculator/config.dart';
+import 'package:number_inc_dec/number_inc_dec.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -26,19 +27,30 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _selectedButton22 = false;
   bool _selectedButton25 = false;
 
+  bool _activeResetButton = false;
+
   void _calculate(tipPercentage) {
-    setState(() {
-      _totTip = double.parse(_billController.text) * tipPercentage;
-      _tot = double.parse(_billController.text) + _totTip;
-      _tipPerPerson = double.parse(_numPeopleController.text) != 0
-          ? _totTip / double.parse(_numPeopleController.text)
-          : _totTip;
-      _totPerPerson = double.parse(_numPeopleController.text) != 0
-          ? double.parse(_billController.text) /
-                  double.parse(_numPeopleController.text) +
-              _tipPerPerson
-          : _tot;
-    });
+    if (_billController.text == "" || _numPeopleController.text == "") {
+      setState(() {
+        _totTip = 0.00;
+        _tot = 0.00;
+        _tipPerPerson = 0.00;
+        _totPerPerson = 0.00;
+      });
+    } else {
+      setState(() {
+        _totTip = double.parse(_billController.text) * tipPercentage;
+        _tot = double.parse(_billController.text) + _totTip;
+        _tipPerPerson = double.parse(_numPeopleController.text) != 0
+            ? _totTip / double.parse(_numPeopleController.text)
+            : _totTip;
+        _totPerPerson = double.parse(_numPeopleController.text) != 0
+            ? double.parse(_billController.text) /
+                    double.parse(_numPeopleController.text) +
+                _tipPerPerson
+            : _tot;
+      });
+    }
   }
 
   @override
@@ -46,6 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _billController = TextEditingController();
     _numPeopleController = TextEditingController();
+    _numPeopleController.text = "1";
   }
 
   @override
@@ -64,16 +77,16 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Center(
             child: Text(
           widget.title,
-          style: TextStyle(color: themeTextColor),
+          style: const TextStyle(color: themeTextColor),
         )),
       ),
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            constraints: BoxConstraints(maxWidth: 500),
+            constraints: const BoxConstraints(maxWidth: 500),
             child: Card(
               elevation: 5,
-              color: themeColor5.withOpacity(0.8),
+              color: themeColor5.withOpacity(0.9),
               child: Padding(
                 padding: const EdgeInsets.all(32.0),
                 child: Column(
@@ -82,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
-                        style: TextStyle(color: themeTextColor),
+                        style: const TextStyle(color: themeTextColor),
                         controller: _billController,
                         decoration: InputDecoration(
                           filled: true,
@@ -97,20 +110,101 @@ class _MyHomePageState extends State<MyHomePage> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          focusedBorder: OutlineInputBorder(
+                          focusedBorder: const OutlineInputBorder(
                             borderSide: BorderSide(
                               color: themeColor3,
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: themeColor5,
+                              color: themeColor4.withOpacity(0.3),
                             ),
                           ),
                         ),
+                        // onChanged: (string) {
+                        //   if (_billController.text.isNotEmpty) {
+                        //     setState(() {
+                        //       _activeResetButton = true;
+                        //     });
+                        //   } else {
+                        //     setState(() {
+                        //       _activeResetButton = false;
+                        //     });
+                        //   }
+                        // },
                       ),
                     ),
                     Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: NumberInputWithIncrementDecrement(
+                        onIncrement: (num) {
+                          setState(() {
+                            if (_selectedButton10) _calculate(0.10);
+                            if (_selectedButton15) _calculate(0.15);
+                            if (_selectedButton18) _calculate(0.18);
+                            if (_selectedButton20) _calculate(0.20);
+                            if (_selectedButton22) _calculate(0.22);
+                            if (_selectedButton25) _calculate(0.25);
+                          });
+                        },
+                        onDecrement: (num) {
+                          setState(() {
+                            if (_selectedButton10) _calculate(0.10);
+                            if (_selectedButton15) _calculate(0.15);
+                            if (_selectedButton18) _calculate(0.18);
+                            if (_selectedButton20) _calculate(0.20);
+                            if (_selectedButton22) _calculate(0.22);
+                            if (_selectedButton25) _calculate(0.25);
+                          });
+                        },
+                        min: 1,
+                        style: const TextStyle(color: themeTextColor),
+                        textAlign: TextAlign.start,
+                        controller: _numPeopleController,
+                        incDecBgColor: themeColor1,
+                        buttonArrangement: ButtonArrangement.rightEnd,
+                        initialValue: 1,
+                        numberFieldDecoration: InputDecoration(
+                          filled: true,
+                          fillColor: themeColor5,
+                          hintText: 'Number of people to split the bill',
+                          hintStyle:
+                              TextStyle(color: themeTextColor.withOpacity(0.7)),
+                          prefixIcon: const Icon(
+                            Icons.people,
+                            color: themeTextColor,
+                          ),
+                          border: InputBorder.none,
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: themeColor3,
+                            ),
+                          ),
+                        ),
+                        widgetContainerDecoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(5)),
+                          border: Border.all(
+                            color: themeColor4.withOpacity(0.5),
+                          ),
+                        ),
+                        incIconDecoration: const BoxDecoration(
+                          color: themeColor1,
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(5),
+                          ),
+                        ),
+                        decIconDecoration: const BoxDecoration(
+                          color: themeColor1,
+                          borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(5),
+                          ),
+                        ),
+                        separateIcons: true,
+                        incIconSize: 22,
+                        decIconSize: 22,
+                      ),
+                    ),
+                    /*Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         style: TextStyle(color: themeTextColor),
@@ -135,12 +229,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: themeColor5,
+                              color: themeColor4.withOpacity(0.3),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                    ),*/
                     Column(
                       children: [
                         Padding(
@@ -150,23 +244,26 @@ class _MyHomePageState extends State<MyHomePage> {
                             children: [
                               ElevatedButton(
                                   onPressed: () {
-                                    _selectedButton10 = !_selectedButton10;
-                                    _selectedButton10
-                                        ? _calculate(0.10)
-                                        : _calculate(0);
-                                    _selectedButton15 = false;
-                                    _selectedButton18 = false;
-                                    _selectedButton20 = false;
-                                    _selectedButton22 = false;
-                                    _selectedButton25 = false;
+                                    if (_billController.text.isNotEmpty) {
+                                      _activeResetButton = true;
+                                      _selectedButton10 = !_selectedButton10;
+                                      _selectedButton10
+                                          ? _calculate(0.10)
+                                          : _calculate(0);
+                                      _selectedButton15 = false;
+                                      _selectedButton18 = false;
+                                      _selectedButton20 = false;
+                                      _selectedButton22 = false;
+                                      _selectedButton25 = false;
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: _selectedButton10
                                           ? themeColor3
                                           : themeColor1),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: const Text('10%',
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text('10%',
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
@@ -174,23 +271,26 @@ class _MyHomePageState extends State<MyHomePage> {
                                   )),
                               ElevatedButton(
                                   onPressed: () {
-                                    _selectedButton15 = !_selectedButton15;
-                                    _selectedButton15
-                                        ? _calculate(0.15)
-                                        : _calculate(0);
-                                    _selectedButton10 = false;
-                                    _selectedButton18 = false;
-                                    _selectedButton20 = false;
-                                    _selectedButton22 = false;
-                                    _selectedButton25 = false;
+                                    if (_billController.text.isNotEmpty) {
+                                      _activeResetButton = true;
+                                      _selectedButton15 = !_selectedButton15;
+                                      _selectedButton15
+                                          ? _calculate(0.15)
+                                          : _calculate(0);
+                                      _selectedButton10 = false;
+                                      _selectedButton18 = false;
+                                      _selectedButton20 = false;
+                                      _selectedButton22 = false;
+                                      _selectedButton25 = false;
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: _selectedButton15
                                           ? themeColor3
                                           : themeColor1),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: const Text('15%',
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text('15%',
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
@@ -198,23 +298,26 @@ class _MyHomePageState extends State<MyHomePage> {
                                   )),
                               ElevatedButton(
                                   onPressed: () {
-                                    _selectedButton18 = !_selectedButton18;
-                                    _selectedButton18
-                                        ? _calculate(0.18)
-                                        : _calculate(0);
-                                    _selectedButton15 = false;
-                                    _selectedButton10 = false;
-                                    _selectedButton20 = false;
-                                    _selectedButton22 = false;
-                                    _selectedButton25 = false;
+                                    if (_billController.text.isNotEmpty) {
+                                      _activeResetButton = true;
+                                      _selectedButton18 = !_selectedButton18;
+                                      _selectedButton18
+                                          ? _calculate(0.18)
+                                          : _calculate(0);
+                                      _selectedButton15 = false;
+                                      _selectedButton10 = false;
+                                      _selectedButton20 = false;
+                                      _selectedButton22 = false;
+                                      _selectedButton25 = false;
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: _selectedButton18
                                           ? themeColor3
                                           : themeColor1),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: const Text('18%',
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text('18%',
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
@@ -230,23 +333,26 @@ class _MyHomePageState extends State<MyHomePage> {
                             children: [
                               ElevatedButton(
                                   onPressed: () {
-                                    _selectedButton20 = !_selectedButton20;
-                                    _selectedButton20
-                                        ? _calculate(0.20)
-                                        : _calculate(0);
-                                    _selectedButton15 = false;
-                                    _selectedButton18 = false;
-                                    _selectedButton10 = false;
-                                    _selectedButton22 = false;
-                                    _selectedButton25 = false;
+                                    if (_billController.text.isNotEmpty) {
+                                      _activeResetButton = true;
+                                      _selectedButton20 = !_selectedButton20;
+                                      _selectedButton20
+                                          ? _calculate(0.20)
+                                          : _calculate(0);
+                                      _selectedButton15 = false;
+                                      _selectedButton18 = false;
+                                      _selectedButton10 = false;
+                                      _selectedButton22 = false;
+                                      _selectedButton25 = false;
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: _selectedButton20
                                           ? themeColor3
                                           : themeColor1),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: const Text('20%',
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text('20%',
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
@@ -254,23 +360,26 @@ class _MyHomePageState extends State<MyHomePage> {
                                   )),
                               ElevatedButton(
                                   onPressed: () {
-                                    _selectedButton22 = !_selectedButton22;
-                                    _selectedButton22
-                                        ? _calculate(0.22)
-                                        : _calculate(0);
-                                    _selectedButton15 = false;
-                                    _selectedButton18 = false;
-                                    _selectedButton20 = false;
-                                    _selectedButton10 = false;
-                                    _selectedButton25 = false;
+                                    if (_billController.text.isNotEmpty) {
+                                      _activeResetButton = true;
+                                      _selectedButton22 = !_selectedButton22;
+                                      _selectedButton22
+                                          ? _calculate(0.22)
+                                          : _calculate(0);
+                                      _selectedButton15 = false;
+                                      _selectedButton18 = false;
+                                      _selectedButton20 = false;
+                                      _selectedButton10 = false;
+                                      _selectedButton25 = false;
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: _selectedButton22
-                                          ? themeColor2
+                                          ? themeColor3
                                           : themeColor1),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: const Text('22%',
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text('22%',
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
@@ -278,23 +387,28 @@ class _MyHomePageState extends State<MyHomePage> {
                                   )),
                               ElevatedButton(
                                   onPressed: () {
-                                    _selectedButton25 = !_selectedButton25;
-                                    _selectedButton25
-                                        ? _calculate(0.25)
-                                        : _calculate(0);
-                                    _selectedButton15 = false;
-                                    _selectedButton18 = false;
-                                    _selectedButton20 = false;
-                                    _selectedButton22 = false;
-                                    _selectedButton10 = false;
+                                    if (_billController.text.isNotEmpty) {
+                                      _activeResetButton = true;
+                                      _selectedButton25 = !_selectedButton25;
+                                      _selectedButton25
+                                          ? _calculate(0.25)
+                                          : _calculate(0);
+                                      _selectedButton15 = false;
+                                      _selectedButton18 = false;
+                                      _selectedButton20 = false;
+                                      _selectedButton22 = false;
+                                      _selectedButton10 = false;
+                                    }
+                                    print(
+                                        "_billController: ${_billController.value}");
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: _selectedButton25
                                           ? themeColor3
                                           : themeColor1),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: const Text(
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(
                                       '25%',
                                       style: TextStyle(
                                           fontSize: 16,
@@ -327,11 +441,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       const Text('Tip per person',
-                                          style:
-                                              TextStyle(color: Colors.white)),
+                                          style: TextStyle(
+                                              color: Colors.white70,
+                                              fontSize: 16)),
                                       Text(
                                         _tipPerPerson.toStringAsFixed(2),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: themeTextColor,
                                             fontSize: 22,
                                             fontWeight: FontWeight.bold),
@@ -347,11 +462,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       const Text('Total per person',
-                                          style:
-                                              TextStyle(color: Colors.white)),
+                                          style: TextStyle(
+                                              color: Colors.white70,
+                                              fontSize: 16)),
                                       Text(
                                         _totPerPerson.toStringAsFixed(2),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: themeTextColor,
                                             fontSize: 22,
                                             fontWeight: FontWeight.bold),
@@ -359,7 +475,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ],
                                   ),
                                 ),
-                                Divider(
+                                const Divider(
                                   color: Colors.white38,
                                 ),
                                 Padding(
@@ -369,13 +485,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Text(
-                                        'Total tip',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
+                                      const Text('Total tip',
+                                          style: TextStyle(
+                                              color: Colors.white70,
+                                              fontSize: 16)),
                                       Text(
                                         _totTip.toStringAsFixed(2),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: themeTextColor,
                                             fontSize: 22,
                                             fontWeight: FontWeight.bold),
@@ -391,11 +507,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       const Text('Total bill',
-                                          style:
-                                              TextStyle(color: Colors.white)),
+                                          style: TextStyle(
+                                              color: Colors.white70,
+                                              fontSize: 16)),
                                       Text(
                                         _tot.toStringAsFixed(2),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: themeTextColor,
                                             fontSize: 22,
                                             fontWeight: FontWeight.bold),
@@ -413,12 +530,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: themeColor1,
+                            backgroundColor:
+                                _activeResetButton ? themeColor3 : themeColor1,
                           ),
                           onPressed: () {
                             setState(() {
                               _billController.clear();
                               _numPeopleController.clear();
+                              _numPeopleController.text = "1";
                               _totTip = 0.00;
                               _tot = 0.00;
                               _tipPerPerson = 0.00;
@@ -429,12 +548,13 @@ class _MyHomePageState extends State<MyHomePage> {
                               _selectedButton20 = false;
                               _selectedButton22 = false;
                               _selectedButton25 = false;
+                              _activeResetButton = false;
                             });
                           },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
                                 vertical: 8.0, horizontal: 16),
-                            child: const Text('Reset',
+                            child: Text('Reset',
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
