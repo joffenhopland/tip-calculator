@@ -156,10 +156,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             if (_selectedButton20) _calculate(0.20);
                             if (_selectedButton22) _calculate(0.22);
                             if (_selectedButton25) _calculate(0.25);
-                            if (_selectedCustomTip)
+                            if (_selectedCustomTip) {
                               _calculate(
                                   double.parse(_customTipController.text) /
                                       100);
+                            }
                           });
                         },
                         onDecrement: (num) {
@@ -170,10 +171,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             if (_selectedButton20) _calculate(0.20);
                             if (_selectedButton22) _calculate(0.22);
                             if (_selectedButton25) _calculate(0.25);
-                            if (_selectedCustomTip)
+                            if (_selectedCustomTip) {
                               _calculate(
                                   double.parse(_customTipController.text) /
                                       100);
+                            }
                           });
                         },
                         min: 1,
@@ -451,58 +453,62 @@ class _MyHomePageState extends State<MyHomePage> {
                             ],
                           ),
                         ),
-                        TextFormField(
-                          style: const TextStyle(
-                              color: themeColor5,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                          controller: _customTipController,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor:
-                                _selectedCustomTip ? themeColor3 : themeColor1,
-                            hintText: 'Enter custom tip',
-                            hintStyle: TextStyle(
-                                color: themeColor5.withOpacity(0.8),
-                                fontWeight: FontWeight.normal),
-                            prefixIcon: const Icon(
-                              Icons.percent_sharp,
-                              color: themeColor5,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: themeColor3,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            style: const TextStyle(
+                                color: themeColor5,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                            controller: _customTipController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: _selectedCustomTip
+                                  ? themeColor3
+                                  : themeColor1,
+                              hintText: 'Custom tip',
+                              hintStyle: TextStyle(
+                                  color: themeColor5.withOpacity(0.8),
+                                  fontWeight: FontWeight.normal),
+                              prefixIcon: const Icon(
+                                Icons.percent_sharp,
+                                color: themeColor5,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: themeColor3,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: themeColor4.withOpacity(0.3),
+                                ),
                               ),
                             ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: themeColor4.withOpacity(0.3),
-                              ),
-                            ),
+                            onChanged: (string) {
+                              if (_customTipController.text.isNotEmpty) {
+                                setState(() {
+                                  _calculate(double.parse(string) / 100);
+                                  _activeResetButton = true;
+                                  _selectedCustomTip = true;
+                                  _selectedButton10 = false;
+                                  _selectedButton15 = false;
+                                  _selectedButton18 = false;
+                                  _selectedButton20 = false;
+                                  _selectedButton22 = false;
+                                  _selectedButton25 = false;
+                                });
+                              } else {
+                                setState(() {
+                                  _activeResetButton = false;
+                                  _selectedCustomTip = false;
+                                });
+                              }
+                            },
                           ),
-                          onChanged: (string) {
-                            if (_customTipController.text.isNotEmpty) {
-                              setState(() {
-                                _calculate(double.parse(string) / 100);
-                                _activeResetButton = true;
-                                _selectedCustomTip = true;
-                                _selectedButton10 = false;
-                                _selectedButton15 = false;
-                                _selectedButton18 = false;
-                                _selectedButton20 = false;
-                                _selectedButton22 = false;
-                                _selectedButton25 = false;
-                              });
-                            } else {
-                              setState(() {
-                                _activeResetButton = false;
-                                _selectedCustomTip = false;
-                              });
-                            }
-                          },
                         ),
                       ],
                     ),
