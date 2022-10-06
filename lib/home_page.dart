@@ -14,6 +14,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late TextEditingController _billController;
   late TextEditingController _numPeopleController;
+  late TextEditingController _customTipController;
 
   double _totTip = 0.00;
   double _tot = 0.00;
@@ -26,6 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _selectedButton20 = false;
   bool _selectedButton22 = false;
   bool _selectedButton25 = false;
+  bool _selectedCustomTip = false;
 
   bool _activeResetButton = false;
 
@@ -58,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _billController = TextEditingController();
     _numPeopleController = TextEditingController();
+    _customTipController = TextEditingController();
     _numPeopleController.text = "1";
   }
 
@@ -65,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void dispose() {
     _billController.dispose();
     _numPeopleController.dispose();
+    _customTipController.dispose();
     super.dispose();
   }
 
@@ -121,17 +125,24 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ),
                         ),
-                        // onChanged: (string) {
-                        //   if (_billController.text.isNotEmpty) {
-                        //     setState(() {
-                        //       _activeResetButton = true;
-                        //     });
-                        //   } else {
-                        //     setState(() {
-                        //       _activeResetButton = false;
-                        //     });
-                        //   }
-                        // },
+                        onChanged: (string) {
+                          if (_selectedCustomTip) {
+                            _calculate(
+                                double.parse(_customTipController.text) / 100);
+                          } else if (_selectedButton10) {
+                            _calculate(0.10);
+                          } else if (_selectedButton15) {
+                            _calculate(0.15);
+                          } else if (_selectedButton18) {
+                            _calculate(0.18);
+                          } else if (_selectedButton20) {
+                            _calculate(0.20);
+                          } else if (_selectedButton22) {
+                            _calculate(0.22);
+                          } else if (_selectedButton25) {
+                            _calculate(0.25);
+                          }
+                        },
                       ),
                     ),
                     Padding(
@@ -145,6 +156,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             if (_selectedButton20) _calculate(0.20);
                             if (_selectedButton22) _calculate(0.22);
                             if (_selectedButton25) _calculate(0.25);
+                            if (_selectedCustomTip)
+                              _calculate(
+                                  double.parse(_customTipController.text) /
+                                      100);
                           });
                         },
                         onDecrement: (num) {
@@ -155,6 +170,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             if (_selectedButton20) _calculate(0.20);
                             if (_selectedButton22) _calculate(0.22);
                             if (_selectedButton25) _calculate(0.25);
+                            if (_selectedCustomTip)
+                              _calculate(
+                                  double.parse(_customTipController.text) /
+                                      100);
                           });
                         },
                         min: 1,
@@ -182,7 +201,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                         widgetContainerDecoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(5)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(5)),
                           border: Border.all(
                             color: themeColor4.withOpacity(0.5),
                           ),
@@ -255,6 +275,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       _selectedButton20 = false;
                                       _selectedButton22 = false;
                                       _selectedButton25 = false;
+                                      _selectedCustomTip = false;
+                                      _customTipController.clear();
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -282,6 +304,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       _selectedButton20 = false;
                                       _selectedButton22 = false;
                                       _selectedButton25 = false;
+                                      _selectedCustomTip = false;
+                                      _customTipController.clear();
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -309,6 +333,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       _selectedButton20 = false;
                                       _selectedButton22 = false;
                                       _selectedButton25 = false;
+                                      _selectedCustomTip = false;
+                                      _customTipController.clear();
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -344,6 +370,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       _selectedButton10 = false;
                                       _selectedButton22 = false;
                                       _selectedButton25 = false;
+                                      _selectedCustomTip = false;
+                                      _customTipController.clear();
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -371,6 +399,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       _selectedButton20 = false;
                                       _selectedButton10 = false;
                                       _selectedButton25 = false;
+                                      _selectedCustomTip = false;
+                                      _customTipController.clear();
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -398,6 +428,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       _selectedButton20 = false;
                                       _selectedButton22 = false;
                                       _selectedButton10 = false;
+                                      _selectedCustomTip = false;
+                                      _customTipController.clear();
                                     }
                                     print(
                                         "_billController: ${_billController.value}");
@@ -418,6 +450,59 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ))
                             ],
                           ),
+                        ),
+                        TextFormField(
+                          style: const TextStyle(
+                              color: themeColor5,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                          controller: _customTipController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor:
+                                _selectedCustomTip ? themeColor3 : themeColor1,
+                            hintText: 'Enter custom tip',
+                            hintStyle: TextStyle(
+                                color: themeColor5.withOpacity(0.8),
+                                fontWeight: FontWeight.normal),
+                            prefixIcon: const Icon(
+                              Icons.percent_sharp,
+                              color: themeColor5,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: themeColor3,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: themeColor4.withOpacity(0.3),
+                              ),
+                            ),
+                          ),
+                          onChanged: (string) {
+                            if (_customTipController.text.isNotEmpty) {
+                              setState(() {
+                                _calculate(double.parse(string) / 100);
+                                _activeResetButton = true;
+                                _selectedCustomTip = true;
+                                _selectedButton10 = false;
+                                _selectedButton15 = false;
+                                _selectedButton18 = false;
+                                _selectedButton20 = false;
+                                _selectedButton22 = false;
+                                _selectedButton25 = false;
+                              });
+                            } else {
+                              setState(() {
+                                _activeResetButton = false;
+                                _selectedCustomTip = false;
+                              });
+                            }
+                          },
                         ),
                       ],
                     ),
@@ -537,6 +622,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             setState(() {
                               _billController.clear();
                               _numPeopleController.clear();
+                              _customTipController.clear();
                               _numPeopleController.text = "1";
                               _totTip = 0.00;
                               _tot = 0.00;
@@ -548,6 +634,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               _selectedButton20 = false;
                               _selectedButton22 = false;
                               _selectedButton25 = false;
+                              _selectedCustomTip = false;
                               _activeResetButton = false;
                             });
                           },
